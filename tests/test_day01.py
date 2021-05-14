@@ -23,9 +23,20 @@ class Day01TestSuite(unittest.TestCase):
     def test_number_of_floors(self, candidate, expected):
         self.assertEquals(day01.floors(candidate), expected)
 
+    @parameterized.expand([
+        (')', 1),
+        ('()())', 5),
+    ])
+    def test_basement(self, candidate, expected):
+        self.assertEquals(day01.basement(candidate), expected)
+
     def test_part1(self):
         f = open('data/day01.txt')
         self.assertEquals(day01.floors(f.read()), 280)
+
+    def test_part2(self):
+        f = open('data/day01.txt')
+        self.assertEquals(day01.basement(f.read()), 1797)
 
 
 if __name__ == '__main__':
