@@ -45,3 +45,30 @@ def light_up(instructions: List[str]) -> int:
         for j in range(0, 1000):
             sum += 1 if state[(i, j)] == 1 else 0
     return sum
+
+
+def brightness(instructions: List[str]) -> int:
+    """light according to the instructions"""
+    state = {}
+    for i in range(0, 1000):
+        for j in range(0, 1000):
+            state[(i, j)] = 0
+    for instruction in instructions:
+        [cmd, [x, y], [z, w]] = parse(instruction)
+        if cmd == Type.Toggle:
+            for i in range(x, y):
+                for j in range(z, w):
+                    state[(i, j)] += 2
+        elif cmd == Type.On:
+            for i in range(x, y):
+                for j in range(z, w):
+                    state[(i, j)] += 1
+        else:
+            for i in range(x, y):
+                for j in range(z, w):
+                    state[(i, j)] -= 1 if state[(i, j)] > 0 else 0
+    sum = 0
+    for i in range(0, 1000):
+        for j in range(0, 1000):
+            sum += state[(i, j)]
+    return sum
