@@ -6,7 +6,7 @@ from parameterized import parameterized
 from src import day05
 
 
-class Day04TestSuite(unittest.TestCase):
+class Day05TestSuite(unittest.TestCase):
     """Test Suite for Day05"""
 
     @parameterized.expand([
