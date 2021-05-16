@@ -25,6 +25,11 @@ class Day07TestSuite(unittest.TestCase):
         self.assertEquals(day07.circuit(
             f.readlines())['a'], 3176)
 
+    def test_part2(self):
+        f = open('data/day07b.txt')
+        self.assertEquals(day07.circuit(
+            f.readlines())['a'], 14710)
+
 
 if __name__ == '__main__':
     unittest.main()
