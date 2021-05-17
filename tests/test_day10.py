@@ -23,6 +23,9 @@ class Day10TestSuite(unittest.TestCase):
     def test_part1(self):
         self.assertEquals(len(day10.look_and_say('3113322113', 40)), 329356)
 
+    def test_part2(self):
+        self.assertEquals(len(day10.look_and_say('3113322113', 50)), 4666278)
+
 
 if __name__ == '__main__':
     unittest.main()

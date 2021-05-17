@@ -1,6 +1,6 @@
 def look_and_say(candidate: str, times: int) -> str:
     result = candidate
-    for i in range(times):
+    for _ in range(times):
         result = tick(result, '')
     return result
 
