@@ -3,7 +3,7 @@ import re
 from itertools import permutations
 
 
-def find_shortest_distance(routes: List[str]) -> int:
+def find_distance(routes: List[str], func) -> int:
     compass: Dict[(str, str), int] = {}
     result: int = 0
     regex = re.compile('(\w+) to (\w+) = (\d+)')
@@ -20,5 +20,5 @@ def find_shortest_distance(routes: List[str]) -> int:
         for i, c in enumerate(candidate):
             if i < len(candidate) - 1:
                 sum += compass[(c, candidate[i+1])]
-        result = sum if result == 0 else min(sum, result)
+        result = sum if result == 0 else func(sum, result)
     return result
