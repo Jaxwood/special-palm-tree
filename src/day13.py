@@ -21,12 +21,19 @@ def collect(acc: Set[str], kv: Tuple[Tuple[str, str], int]) -> Set[str]:
     return acc
 
 
-def seating(arrangement: List[str]) -> int:
+def seating(arrangement: List[str], extra: str = None) -> int:
     preferences = parse(arrangement)
-    participants = list(permutations(
-        list(reduce(collect, preferences, set()))))
+    participants = list(reduce(collect, preferences, set()))
+
+    # add extra participant
+    if extra is not None:
+        for col in participants:
+            preferences[(col, extra)] = 0
+            preferences[(extra, col)] = 0
+        participants.append(extra)
+
     best = 0
-    for suggestion in participants:
+    for suggestion in list(permutations(participants)):
         sum = 0
         for i in range(len(suggestion)):
             sum += preferences[(suggestion[i], suggestion[i+1])] + preferences[(suggestion[i+1], suggestion[i])] if i+1 < len(

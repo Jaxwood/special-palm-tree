@@ -31,6 +31,10 @@ class Day13TestSuite(unittest.TestCase):
         f = open('data/day13.txt')
         self.assertEquals(day13.seating(f.readlines()), 709)
 
+    def test_part2(self):
+        f = open('data/day13.txt')
+        self.assertEquals(day13.seating(f.readlines(), 'johndoe'), 668)
+
 
 if __name__ == '__main__':
     unittest.main()
