@@ -1,3 +1,4 @@
+from os import RTLD_DEEPBIND
 from typing import List
 import re
 from functools import reduce
@@ -10,6 +11,7 @@ class Reindeer:
         self.seconds = seconds
         self.rest = rest
         self.distance = 0
+        self.points = 0
         self.until = self.seconds
 
     def __repr__(self) -> str:
@@ -23,8 +25,8 @@ class Reindeer:
         else:
             return None
 
-    def total(self) -> int:
-        return self.distance
+    def award(self) -> None:
+        self.points += 1
 
 
 def parse(raw: List[str]) -> List[Reindeer]:
@@ -37,9 +39,14 @@ def parse(raw: List[str]) -> List[Reindeer]:
     return result
 
 
-def travel(raw: List[str], seconds: int) -> int:
+def travel(raw: List[str], seconds: int, award: bool = False) -> int:
     reindeers = parse(raw)
     for i in range(1, seconds + 1):
-        for r in reindeers:
+        best = 0
+        for j, r in enumerate(reindeers):
             r.tick(i)
-    return reduce(lambda acc, r: max(acc, r.total()), reindeers, 0)
+            best = j if r.distance > reindeers[best].distance else best
+        if award:
+            reindeers[best].award()
+
+    return reduce(lambda acc, r: max(acc, r.points if award else r.distance), reindeers, 0)

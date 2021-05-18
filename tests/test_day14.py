@@ -20,6 +20,10 @@ class Day14TestSuite(unittest.TestCase):
         f = open('data/day14.txt')
         self.assertEquals(day14.travel(f.readlines(), 2503), 2655)
 
+    def test_part2(self):
+        f = open('data/day14.txt')
+        self.assertEquals(day14.travel(f.readlines(), 2503, True), 1059)
+
 
 if __name__ == '__main__':
     unittest.main()
