@@ -27,6 +27,10 @@ class Day12TestSuite(unittest.TestCase):
         f = open('data/day12.txt')
         self.assertEquals(day12.sum(f.read()), 191164)
 
+    def test_part2(self):
+        f = open('data/day12.txt')
+        self.assertEquals(day12.sum(f.read(), False), 87842)
+
 
 if __name__ == '__main__':
     unittest.main()
