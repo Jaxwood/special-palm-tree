@@ -17,14 +17,12 @@ def sum_all(json: Any, sum: int) -> int:
 
 
 def sum_except_red(json: Any, sum: int) -> int:
-    """recursively sum the json"""
+    """recursively sum the json except if it contains red"""
     if isinstance(json, str):
         return sum
     if isinstance(json, int):
         return sum + int(json)
     for k in json:
-        if k == 'red':
-            continue
         if isinstance(json, dict):
             if any(filter(lambda x: json[x] == 'red', json)):
                 continue
