@@ -9,8 +9,27 @@ class Aunt:
 
     def matches(self, traits: List[str]) -> bool:
         for trait in traits:
-            if self.chars.get(trait[0]) and self.chars.get(trait[0]) != trait[1]:
+            if self.chars.get(trait[0]) != None and self.chars.get(trait[0]) != trait[1]:
                 return False
+        return True
+
+    def advanced_match(self, traits: List[str]) -> bool:
+        for trait in traits:
+            if self.chars.get(trait[0]) != None:
+                if trait[0] == 'trees':
+                    if self.chars.get(trait[0]) <= trait[1]:
+                        return False
+                elif trait[0] == 'cats':
+                    if self.chars.get(trait[0]) <= trait[1]:
+                        return False
+                elif trait[0] == 'pomeranians':
+                    if self.chars.get(trait[0]) >= trait[1]:
+                        return False
+                elif trait[0] == 'goldfish':
+                    if self.chars.get(trait[0]) >= trait[1]:
+                        return False
+                elif self.chars.get(trait[0]) != trait[1]:
+                    return False
         return True
 
 
@@ -29,9 +48,13 @@ def parse(raw: List[str]) -> List[Aunt]:
     return aunts
 
 
-def find_aunt_sue(traits: List[str], raw: List[Tuple[str, int]]) -> int:
+def find_aunt_sue(traits: List[str], raw: List[Tuple[str, int]], advanced: bool = False) -> int:
     aunts = parse(raw)
     for aunt in aunts:
-        if aunt.matches(traits):
-            return aunt.num
+        if advanced:
+            if aunt.advanced_match(traits):
+                return aunt.num
+        else:
+            if aunt.matches(traits):
+                return aunt.num
     return 0
