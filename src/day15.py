@@ -27,7 +27,7 @@ def parse(raw: List[str]) -> List[Recipe]:
     return result
 
 
-def mix2(raw: List[str], calories: int) -> int:
+def mix2(raw: List[str], calories: int, limit: bool = False) -> int:
     recipes = parse(raw)
     # generate combinations of teaspoons
     teaspoons: List[int] = []
@@ -37,10 +37,10 @@ def mix2(raw: List[str], calories: int) -> int:
                 perm = permutations([i, j])
                 for p in perm:
                     teaspoons.append(p)
-    return score(recipes, teaspoons)
+    return score(recipes, teaspoons, limit)
 
 
-def mix4(raw: List[str], calories: int) -> int:
+def mix4(raw: List[str], calories: int, limit: bool = False) -> int:
     recipes = parse(raw)
     # generate combinations of teaspoons
     teaspoons: List[int] = []
@@ -56,10 +56,10 @@ def mix4(raw: List[str], calories: int) -> int:
                         perm = permutations([i, j, k, l])
                         for p in perm:
                             teaspoons.append(p)
-    return score(recipes, teaspoons)
+    return score(recipes, teaspoons, limit)
 
 
-def score(recipes: List[Recipe], teaspoons: List[int]) -> int:
+def score(recipes: List[Recipe], teaspoons: List[int], limit: bool) -> int:
     best = 0
     # mix and find the best one
     for xs in teaspoons:
@@ -67,14 +67,21 @@ def score(recipes: List[Recipe], teaspoons: List[int]) -> int:
         dur = 0
         fla = 0
         tex = 0
+        cal = 0
         for i, x in enumerate(xs):
             cap = cap + recipes[i].capacity*x
             dur = dur + recipes[i].durability*x
             fla = fla + recipes[i].flavor*x
             tex = tex + recipes[i].texture*x
+            cal = cal + recipes[i].calories*x
         cap = cap if cap > 0 else 0
         dur = dur if dur > 0 else 0
         fla = fla if fla > 0 else 0
         tex = tex if tex > 0 else 0
-        best = max(best, cap*dur*fla*tex)
+        cal = cal if cal > 0 else 0
+        if limit:
+            if cal == 500:
+                best = max(best, cap*dur*fla*tex)
+        else:
+            best = max(best, cap*dur*fla*tex)
     return best
