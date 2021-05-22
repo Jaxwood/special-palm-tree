@@ -31,3 +31,27 @@ def replace_once(raw: List[str], molecule: str) -> int:
                 combinations.add(new)
 
     return len(combinations)
+
+
+def find_replacements(raw: List[str], molecule: str) -> int:
+    replacements = parse(raw)
+    swapped = {}
+    # go backward and find 'e'
+    for candidate in replacements:
+        for v in replacements.get(candidate):
+            swapped[v] = candidate
+    stack = []
+    stack.append((molecule, 0))
+    while len(stack) != 0:
+        [strain, cnt] = stack.pop()
+        for index in range(len(strain)):
+            candidates = list(
+                filter(lambda x: strain.startswith(x, index, index+len(x)), swapped))
+            for candidate in candidates:
+                mutation = strain[:index] + \
+                    swapped.get(candidate) + strain[index+len(candidate):]
+                if mutation == 'e':
+                    return cnt + 1
+                else:
+                    stack.append((mutation, cnt + 1))
+    return 0
