@@ -15,10 +15,20 @@ def factors(num: int) -> Set[int]:
 
 
 def deliverable(until: int) -> int:
-    i = 750000
+    house = 750000
     while True:
-        facts = factors(i)
+        facts = factors(house)
         sum = reduce(lambda acc, n: acc + n * 10, facts, 0)
         if sum >= until:
-            return i
-        i = i + 1
+            return house
+        house = house + 1
+
+
+def limited_deliverable(until: int) -> int:
+    house = 750000
+    while True:
+        facts = filter(lambda x: x * 50 >= house, factors(house))
+        sum = reduce(lambda acc, n: acc + n * 11, facts, 0)
+        if sum >= until:
+            return house
+        house = house + 1
