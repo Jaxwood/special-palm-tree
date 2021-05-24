@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Callable, List, Tuple
 import uuid
 
 Equipment = Tuple[str, int, int, int]
@@ -62,7 +62,7 @@ class Player:
         return self.cost
 
 
-def fight() -> int:
+def fight(condition: Callable[[Player, Player], bool]) -> int:
     # equip armor
     simulations: List[Player] = []
     for weapon in weapons:
@@ -80,6 +80,16 @@ def fight() -> int:
         while player.is_alive() and boss.is_alive():
             boss.defend(player.dmg)
             player.defend(boss.dmg)
-        if boss.is_dead() and player.is_alive():
+        if condition(player, boss):
             results.append(player.total_cost())
-    return min(results)
+    return results
+
+
+def part1() -> int:
+    result = fight(lambda player, boss: player.is_alive() and boss.is_dead())
+    return min(result)
+
+
+def part2() -> int:
+    result = fight(lambda player, boss: player.is_dead() and boss.is_alive())
+    return max(result)
