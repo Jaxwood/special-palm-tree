@@ -103,7 +103,7 @@ def better(spend: int, best: int) -> bool:
     return spend <= best
 
 
-def part1() -> int:
+def play(hardmode: bool = False) -> int:
     best = 0
     player = create(50, 500, 0, 0, {})
     boss = create(71, 0, 10, 0, {})
@@ -114,6 +114,10 @@ def part1() -> int:
         for spell in spells:
             (p, b, spend) = deepcopy(next)
             # player turn
+            if hardmode:
+                p['hp'] -= 1
+                if dead(p):
+                    continue
             tick(p, b)
             if can_cast(p, spell):
                 spells[spell](p, b)
